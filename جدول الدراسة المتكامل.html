@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول الدراسة المتكامل</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            background: #f4f4f9;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .section {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        input, select, button {
+            width: calc(100% - 20px);
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: block;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        /* ألوان الخلفية لكل يوم */
+        tr[data-day="السبت"] {
+            background-color: #f8d7da;
+        }
+        tr[data-day="الأحد"] {
+            background-color: #d1ecf1;
+        }
+        tr[data-day="الإثنين"] {
+            background-color: #d4edda;
+        }
+        tr[data-day="الثلاثاء"] {
+            background-color: #fff3cd;
+        }
+        tr[data-day="الأربعاء"] {
+            background-color: #cce5ff;
+        }
+    </style>
+</head>
+<body>
+    <!-- العنوان -->
+    <h1>جدول الدراسة المتكامل</h1>
+
+    <!-- جدول المحاضرات -->
+    <h2>جدول المحاضرات</h2>
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>اليوم</th>
+                <th>الوقت</th>
+                <th>المادة</th>
+                <th>التدريسي</th>
+                <th>القاعة</th>
+                <th>الملاحظات</th>
+                <th>خيارات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- أمثلة على المحاضرات -->
+            <tr data-day="السبت">
+                <td>السبت</td>
+                <td>08:25 - 09:45 ص</td>
+                <td>Mathematics I</td>
+                <td>م.د. عمار مزيد</td>
+                <td>M6</td>
+                <td>إحضار الكتاب</td>
+                <td><button onclick="deleteRow(this)">حذف</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- إضافة محاضرة -->
+    <div class="section">
+        <h2>إضافة محاضرة جديدة</h2>
+        <select id="dayInput">
+            <option value="السبت">السبت</option>
+            <option value="الأحد">الأحد</option>
+            <option value="الإثنين">الإثنين</option>
+            <option value="الثلاثاء">الثلاثاء</option>
+            <option value="الأربعاء">الأربعاء</option>
+        </select>
+        <input type="text" id="timeInput" placeholder="الوقت (مثال: 08:25 - 09:45 ص)">
+        <input type="text" id="subjectInput" placeholder="اسم المادة">
+        <input type="text" id="teacherInput" placeholder="اسم التدريسي">
+        <input type="text" id="roomInput" placeholder="القاعة">
+        <input type="text" id="notesInput" placeholder="الملاحظات (اختياري)">
+        <button onclick="addLecture()">إضافة المحاضرة</button>
+    </div>
+
+    <script>
+        function addLecture() {
+            const day = document.getElementById("dayInput").value;
+            const time = document.getElementById("timeInput").value.trim();
+            const subject = document.getElementById("subjectInput").value.trim();
+            const teacher = document.getElementById("teacherInput").value.trim();
+            const room = document.getElementById("roomInput").value.trim();
+            const notes = document.getElementById("notesInput").value.trim();
+
+            if (day && time && subject && teacher && room) {
+                const table = document.getElementById("scheduleTable").getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                newRow.setAttribute("data-day", day);
+
+                newRow.innerHTML = `
+                    <td>${day}</td>
+                    <td>${time}</td>
+                    <td>${subject}</td>
+                    <td>${teacher}</td>
+                    <td>${room}</td>
+                    <td>${notes || "-"}</td>
+                    <td><button onclick="deleteRow(this)">حذف</button></td>
+                `;
+
+                // تفريغ الحقول بعد الإضافة
+                document.getElementById("timeInput").value = "";
+                document.getElementById("subjectInput").value = "";
+                document.getElementById("teacherInput").value = "";
+                document.getElementById("roomInput").value = "";
+                document.getElementById("notesInput").value = "";
+            } else {
+                alert("يرجى تعبئة جميع الحقول قبل الإضافة.");
+            }
+        }
+
+        function deleteRow(button) {
+            button.closest("tr").remove();
+        }
+    </script>
+</body>
+</html>
