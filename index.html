@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عيد ميلاد سعيد 🎉</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        
         body {
             text-align: center;
             background-color: #8B0000;
@@ -24,8 +26,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
             margin: 5px;
+            transition: 0.3s;
         }
         button:hover {
             background-color: #ffcccc;
@@ -67,6 +69,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
@@ -75,6 +78,7 @@
     <p>أتمنى لكِ يوماً رائعاً مليئاً بالفرح والسعادة! 💖</p>
     <button onclick="playSong()">سنفور الحلو دوسي هنا 💙 🎶</button>
     <audio id="song" src="song.mp3" ontimeupdate="updateProgress()"></audio>
+    
     <div class="player-controls" id="controls" style="display: none;">
         <p id="time">0:00</p>
         <div class="progress">
@@ -86,7 +90,7 @@
             <button onclick="forward()">⏩</button>
         </div>
     </div>
-    
+
     <script>
         function playSong() {
             let song = document.getElementById("song");
@@ -95,11 +99,11 @@
             createFlowers();
             setInterval(createFirework, 800);
         }
-        
+
         function createFlowers() {
             for (let i = 0; i < 15; i++) {
                 let flower = document.createElement("img");
-                flower.src = "flower.jpg"; // استخدام الصورة المحلية
+                flower.src = "flower.jpg"; // صورة محلية
                 flower.className = "flower";
                 flower.style.left = Math.random() * 100 + "vw";
                 flower.style.animationDuration = Math.random() * 3 + 2 + "s";
@@ -107,7 +111,21 @@
                 setTimeout(() => flower.remove(), 5000);
             }
         }
-        
+
+        function createFirework() {
+            let firework = document.createElement("div");
+            firework.style.position = "absolute";
+            firework.style.left = Math.random() * 100 + "vw";
+            firework.style.top = Math.random() * 100 + "vh";
+            firework.style.width = "10px";
+            firework.style.height = "10px";
+            firework.style.borderRadius = "50%";
+            firework.style.background = "gold";
+            firework.style.boxShadow = "0 0 10px gold, 0 0 20px orange, 0 0 30px red";
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 1000);
+        }
+
         function updateProgress() {
             let song = document.getElementById("song");
             let progressBar = document.getElementById("progress-bar");
