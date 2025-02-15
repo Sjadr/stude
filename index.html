@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيد ميلاد سعيد 🎉</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #8B0000;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-top: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: white;
+            color: #8B0000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ffcccc;
+        }
+        .flower {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .player-controls {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .player-controls button {
+            margin: 5px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>عيد ميلاد سعيد 🎂🎈</h1>
+    <p>أتمنى لكِ يوماً رائعاً مليئاً بالفرح والسعادة! 💖</p>
+    <button onclick="playSong()">سنفور الحلو دوسي هنا 💙 🎶</button>
+    <audio id="song" src="song.mp3"></audio>
+    <div class="player-controls" id="controls" style="display: none;">
+        <p id="time">0:00</p>
+        <button onclick="rewind()">⏪ -5s</button>
+        <button onclick="forward()">⏩ +5s</button>
+    </div>
+    
+    <script>
+        function playSong() {
+            let song = document.getElementById("song");
+            song.play();
+            document.getElementById("controls").style.display = "block";
+            setInterval(updateTime, 500);
+            createFlowers();
+            setInterval(createFirework, 800);
+        }
+
+        function createFlowers() {
+            for (let i = 0; i < 15; i++) {
+                let flower = document.createElement("img");
+                flower.src = "https://i.imgur.com/Q8XrEec.png"; // صورة وردة حمراء
+                flower.className = "flower";
+                flower.style.left = Math.random() * 100 + "vw";
+                flower.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(flower);
+                setTimeout(() => flower.remove(), 5000);
+            }
+        }
+
+        function createFirework() {
+            let firework = document.createElement("div");
+            firework.style.position = "absolute";
+            firework.style.left = Math.random() * 100 + "vw";
+            firework.style.top = Math.random() * 100 + "vh";
+            firework.style.width = "10px";
+            firework.style.height = "10px";
+            firework.style.borderRadius = "50%";
+            firework.style.background = "gold";
+            firework.style.boxShadow = "0 0 10px gold, 0 0 20px orange, 0 0 30px red";
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 1000);
+        }
+        
+        function updateTime() {
+            let song = document.getElementById("song");
+            let timeDisplay = document.getElementById("time");
+            let minutes = Math.floor(song.currentTime / 60);
+            let seconds = Math.floor(song.currentTime % 60);
+            timeDisplay.innerText = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+        }
+        
+        function rewind() {
+            let song = document.getElementById("song");
+            song.currentTime = Math.max(0, song.currentTime - 5);
+        }
+        
+        function forward() {
+            let song = document.getElementById("song");
+            song.currentTime = Math.min(song.duration, song.currentTime + 5);
+        }
+    </script>
+</body>
+</html>
